@@ -10,7 +10,6 @@ namespace UI
 
         private void Start()
         {
-            _inputActions = new InputActions();
             _inputActions.UI.Enable();
             _inputActions.UI.Escape.performed += (_) => Toggle();
         }
@@ -21,10 +20,12 @@ namespace UI
         }
 
         [Inject]
-        private void Construct(HeadUpDisplayUI headUpDisplayUI)
+        private void Construct(InputActions inputActions, HeadUpDisplayUI headUpDisplayUI)
         {
+            _inputActions = inputActions;
             _headUpDisplayUI = headUpDisplayUI;
         }
+
 
         private void Toggle()
         {

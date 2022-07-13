@@ -1,14 +1,15 @@
 using UnityEngine;
+using Zenject;
 
 namespace Player
 {
     [RequireComponent(typeof(Rigidbody2D), typeof(Animator))]
-    public class PlayerMovement : MonoBehaviour, Game.IInputActionsReceiver
+    public class PlayerMovement : MonoBehaviour
     {
-        [Header("Settings")]
-        [SerializeField] float speed = 4f;
         [Header("Resources")]
         [SerializeField] PlayerData playerData;
+        [Header("Settings")]
+        [SerializeField] float speed = 4f;
 
         private Rigidbody2D _rigidbody2d;
         private Animator _animator;
@@ -35,6 +36,12 @@ namespace Player
 
             if (_direction != Vector2.zero)
                 _rigidbody2d.MovePosition(_rigidbody2d.position + _direction * speed * Time.fixedDeltaTime);
+        }
+
+        [Inject]
+        private void Construct(InputActions inputActions)
+        {
+            _inputActions = inputActions;
         }
 
         internal void Move(Vector2 position)

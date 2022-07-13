@@ -6,7 +6,7 @@ using Zenject;
 namespace Player
 {
     [RequireComponent(typeof(SpriteRenderer), typeof(PlayerMovement))]
-    public class PlayerShooting : MonoBehaviour, IInputActionsReceiver
+    public class PlayerShooting : MonoBehaviour
     {
         [Header("References")]
         [SerializeField] GameObject bulletPrefab;
@@ -39,8 +39,9 @@ namespace Player
         }
 
         [Inject]
-        private void Installer(BulletsPool bulletsPool)
+        private void Construct(InputActions inputActions, BulletsPool bulletsPool)
         {
+            _inputActions = inputActions;
             _bulletsPool = bulletsPool;
         }
 

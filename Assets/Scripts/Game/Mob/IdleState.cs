@@ -4,9 +4,10 @@ namespace Mob
 {
     public class IdleState : MobStateBase, IMobState
     {
+        [Header("References")]
         [SerializeField] Transform[] waypoints;
 
-        private int nextWaypoint = 0;
+        private int _nextWaypoint = 0;
 
         public void OnTriggerEnter(Collider other) //Target is too close
         {
@@ -42,11 +43,11 @@ namespace Mob
                 if (waypoints.Length <= 0)
                     return;
 
-                MyMobController.Agent.destination = waypoints[nextWaypoint].position;
+                MyMobController.Agent.destination = waypoints[_nextWaypoint].position;
                 MyMobController.Agent.isStopped = false;
 
                 if (MyMobController.Agent.remainingDistance <= MyMobController.Agent.stoppingDistance && MyMobController.Agent.pathPending == false)
-                    nextWaypoint = (nextWaypoint + 1) % waypoints.Length;
+                    _nextWaypoint = (_nextWaypoint + 1) % waypoints.Length;
             }
         }
     }

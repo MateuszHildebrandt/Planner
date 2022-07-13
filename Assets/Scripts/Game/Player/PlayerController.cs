@@ -1,4 +1,5 @@
 using UnityEngine;
+using Zenject;
 
 namespace Player
 {
@@ -17,11 +18,7 @@ namespace Player
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
 
-            _inputActions = new InputActions();
-            _inputActions.UI.Enable();
             _inputActions.UI.Escape.performed += (_) => IsActive = !IsActive;
-
-            SetupInputActionsReceiver();         
         }
 
         private void OnEnable()
@@ -37,6 +34,12 @@ namespace Player
         private void OnDestroy()
         {
             _inputActions.Dispose();
+        }
+
+        [Inject]
+        private void Construct(InputActions inputActions)
+        {
+            _inputActions = inputActions;
         }
 
         private bool IsActive
@@ -70,13 +73,6 @@ namespace Player
         private void Kill()
         {
             _spriteRenderer.color = Color.red;            
-        }
-
-        private void SetupInputActionsReceiver()
-        {
-            Game.IInputActionsReceiver[] inputActionReceivers = GetComponentsInChildren<Game.IInputActionsReceiver>();
-            foreach (Game.IInputActionsReceiver item in inputActionReceivers)
-                item.SetupInputActions(_inputActions);
-        }       
+        }     
     }
 }

@@ -29,15 +29,15 @@ namespace UI
         public UnityEvent onExit;
 
         //When effect completed ex. alpha, slide invoke this event and hide content GameObject.
-        private System.Action onExitEffect;
+        private System.Action _onExitEffect;
 
-        private RectTransform rectTransform;
-        private CanvasGroup canvasGroup;
+        private RectTransform _rectTransform;
+        private CanvasGroup _canvasGroup;
 
         private void Awake()
         {
-            rectTransform = GetComponent<RectTransform>();
-            canvasGroup = GetComponent<CanvasGroup>();
+            _rectTransform = GetComponent<RectTransform>();
+            _canvasGroup = GetComponent<CanvasGroup>();
 
             if (hideOnAwake)
                 SetPanelAlpha(false);
@@ -45,7 +45,7 @@ namespace UI
                 SetPanelAlpha(true);
 
             if (centerOnAwake)
-                rectTransform.anchoredPosition = Vector3.zero;
+                _rectTransform.anchoredPosition = Vector3.zero;
         }
 
         private void SetPanel(bool value)
@@ -53,8 +53,8 @@ namespace UI
             if (setAsLastSibling && value)
                 transform.SetAsLastSibling();
 
-            canvasGroup.interactable = value;
-            canvasGroup.blocksRaycasts = value;
+            _canvasGroup.interactable = value;
+            _canvasGroup.blocksRaycasts = value;
 
             IsActive = value;
 
@@ -70,8 +70,8 @@ namespace UI
                 return;
 
             SetPanel(value);
-            canvasGroup.alpha = (value) ? 1 : 0;
-            onExitEffect?.Invoke();
+            _canvasGroup.alpha = (value) ? 1 : 0;
+            _onExitEffect?.Invoke();
         }
 
         public void SetPanelFade(bool value)
@@ -119,7 +119,7 @@ namespace UI
             }
 
             float start;
-            float currValue = canvasGroup.alpha;
+            float currValue = _canvasGroup.alpha;
 
             if (isActive)
                 start = (currValue < 1) ? currValue : 1;
@@ -128,14 +128,14 @@ namespace UI
 
             for (float i = start; i < 1; i += (useTimeScale ? Time.deltaTime : Time.unscaledDeltaTime) / duration)
             {
-                canvasGroup.alpha = (isActive) ? i : 1 - i;
+                _canvasGroup.alpha = (isActive) ? i : 1 - i;
                 yield return null;
             }
 
-            canvasGroup.alpha = (isActive) ? 1 : 0;
+            _canvasGroup.alpha = (isActive) ? 1 : 0;
 
             if (isActive == false)
-                onExitEffect?.Invoke();
+                _onExitEffect?.Invoke();
         }
 
         private IEnumerator SlideCoroutine(bool isActive)
@@ -152,11 +152,11 @@ namespace UI
 
             if (isActive)
             {
-                canvasGroup.alpha = 1;
+                _canvasGroup.alpha = 1;
                 from = SetSlideTarget();
                 to = Vector3.zero;
 
-                rectTransform.anchoredPosition = from;
+                _rectTransform.anchoredPosition = from;
             }
             else
             {
@@ -166,15 +166,15 @@ namespace UI
 
             for (float i = 0; i < 1; i += (useTimeScale ? Time.deltaTime : Time.unscaledDeltaTime) / duration)
             {
-                rectTransform.anchoredPosition = Vector3.Lerp(from, to, i);
+                _rectTransform.anchoredPosition = Vector3.Lerp(from, to, i);
                 yield return null;
             }
 
-            rectTransform.anchoredPosition = to;
+            _rectTransform.anchoredPosition = to;
             if (isActive == false)
             {
-                canvasGroup.alpha = 0;
-                onExitEffect?.Invoke();
+                _canvasGroup.alpha = 0;
+                _onExitEffect?.Invoke();
             }
         }
 
@@ -183,13 +183,13 @@ namespace UI
             Vector3 from = Vector3.zero;
 
             if (moveDirection == MoveDirection.Up)
-                from += Vector3.down * rectTransform.rect.height;
+                from += Vector3.down * _rectTransform.rect.height;
             else if (moveDirection == MoveDirection.Down)
-                from += Vector3.up * rectTransform.rect.height;
+                from += Vector3.up * _rectTransform.rect.height;
             else if (moveDirection == MoveDirection.Left)
-                from += Vector3.right * rectTransform.rect.width;
+                from += Vector3.right * _rectTransform.rect.width;
             else if (moveDirection == MoveDirection.Right)
-                from += Vector3.left * rectTransform.rect.width;
+                from += Vector3.left * _rectTransform.rect.width;
 
             return from;
         }

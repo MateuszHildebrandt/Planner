@@ -6,7 +6,7 @@ namespace Mob
     {
         [SerializeField] float waitTime = 5f;
 
-        private float timer;     
+        private float _timer;     
 
         public void Initialize()
         {
@@ -15,7 +15,7 @@ namespace Mob
 
         public void OnStartState()
         {
-            timer = 0;
+            _timer = 0;
             MyMobController.Agent.destination = MyMobController.target.position;
         }
 
@@ -28,9 +28,9 @@ namespace Mob
         {
             if (MyMobController.Agent.remainingDistance <= MyMobController.Agent.stoppingDistance)
             {
-                timer += Time.deltaTime;
+                _timer += Time.deltaTime;
 
-                if (timer >= waitTime)
+                if (_timer >= waitTime)
                     MyMobController.ToIdleState();
                 else if (MyMobController.Sight.GetPlayerObserved())
                     MyMobController.ToAlertState();

@@ -11,20 +11,20 @@ namespace Mob
         [Header("Debug")]
         [SerializeField] bool playerObserved;
 
-        private CircleCollider2D detectionCircle;
-        private MobController mobController;
+        private CircleCollider2D _detectionCircle;
+        private MobController _mobController;
 
         internal bool GetPlayerObserved() => playerObserved;
 
         private void Awake()
         {
-            detectionCircle = GetComponent<CircleCollider2D>();
-            mobController = GetComponentInParent<MobController>();
+            _detectionCircle = GetComponent<CircleCollider2D>();
+            _mobController = GetComponentInParent<MobController>();
         }
 
         private void OnTriggerStay2D(Collider2D collision)
         {
-            if (mobController.CompareWithTags(collision.gameObject.tag))
+            if (_mobController.CompareWithTags(collision.gameObject.tag))
             {
                 playerObserved = false;
                 Vector3 direction = collision.transform.position - transform.position;
@@ -37,12 +37,12 @@ namespace Mob
                 {
                     if (item.collider != null)
                     {
-                        if (mobController.CompareWithTags(item.collider.tag))
+                        if (_mobController.CompareWithTags(item.collider.tag))
                         {
-                            if (CalculatePathLength(item.transform.position) <= detectionCircle.radius)
+                            if (CalculatePathLength(item.transform.position) <= _detectionCircle.radius)
                             {
                                 playerObserved = true;
-                                mobController.target = item.transform;
+                                _mobController.target = item.transform;
                             }
                         }
                     }
@@ -52,7 +52,7 @@ namespace Mob
 
         private void OnTriggerExit2D(Collider2D collision)
         {
-            if (mobController.CompareWithTags(collision.tag))
+            if (_mobController.CompareWithTags(collision.tag))
                 playerObserved = false;
         }
 
@@ -60,8 +60,8 @@ namespace Mob
         {
             NavMeshPath navMeshPath = new NavMeshPath();
 
-            if (mobController.Agent.enabled)
-                mobController.Agent.CalculatePath(targetPosition, navMeshPath);
+            if (_mobController.Agent.enabled)
+                _mobController.Agent.CalculatePath(targetPosition, navMeshPath);
 
             Vector3[] allWayPoints = new Vector3[navMeshPath.corners.Length + 2];
             allWayPoints[0] = transform.position;

@@ -4,8 +4,6 @@ namespace Mob
 {
     public class AlertState : MobStateBase, IMobState
     {
-        private Vector3 lastKnownPosition;
-
         public void Initialize()
         {
         }
@@ -23,8 +21,6 @@ namespace Mob
         {
             if (MyMobController.Sight.GetPlayerObserved())
             {
-                lastKnownPosition = MyMobController.target.position;
-
                 //Enemy get info about remaining distance.
                 if (MyMobController.Agent.remainingDistance <= MyMobController.GetRange())
                     MyMobController.ToAttackState();

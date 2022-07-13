@@ -24,13 +24,13 @@ namespace Mob
 
         internal Action onDamage;
 
-        private IMobState currentState;
-        private IdleState idleState;
-        private AttackState attackState;
-        private SearchState searchState;
-        private AlertState alertState;
-        private Animator animator;
-        private MobShooting mobShooting;
+        private IMobState _currentState;
+        private IdleState _idleState;
+        private AttackState _attackState;
+        private SearchState _searchState;
+        private AlertState _alertState;
+        private Animator _animator;
+        private MobShooting _mobShooting;
 
         internal bool IsLive { get; private set; } = true;
         internal NavMeshAgent Agent { get; private set; }
@@ -46,28 +46,28 @@ namespace Mob
             Agent.updateUpAxis = false;
 
             Sight = GetComponentInChildren<MobSight>();
-            mobShooting = GetComponent<MobShooting>();
+            _mobShooting = GetComponent<MobShooting>();
 
-            idleState = GetComponent<IdleState>();
-            attackState = GetComponent<AttackState>();
-            searchState = GetComponent<SearchState>();
-            alertState = GetComponent<AlertState>();
-            animator = GetComponent<Animator>();
+            _idleState = GetComponent<IdleState>();
+            _attackState = GetComponent<AttackState>();
+            _searchState = GetComponent<SearchState>();
+            _alertState = GetComponent<AlertState>();
+            _animator = GetComponent<Animator>();
 
-            currentState = idleState;
+            _currentState = _idleState;
         }
 
         private void OnEnable()
         {
             GameController.I.RegisterMob(mobData, gameObject);
-            Debug.Log($"Register mob: {mobData.id}", this);
+            //Debug.Log($"Register mob: {mobData.id}", this);
         }
 
         private void Update()
         {
             if (IsLive)
             {
-                currentState.UpdateState();
+                _currentState.UpdateState();
                 UpdateAnimations();
 
                 if(mobData.position.x != transform.position.x || mobData.position.y != transform.position.y)
@@ -80,20 +80,20 @@ namespace Mob
             Direction = Agent.velocity;
             Direction.Normalize();
 
-            animator.SetFloat("Horizontal", Direction.x);
-            animator.SetFloat("Vertical", Direction.y);
-            animator.SetFloat("Speed", Direction.sqrMagnitude);
+            _animator.SetFloat("Horizontal", Direction.x);
+            _animator.SetFloat("Vertical", Direction.y);
+            _animator.SetFloat("Speed", Direction.sqrMagnitude);
 
             if (Direction == Vector2.zero)
-                animator.speed = 0f;
+                _animator.speed = 0f;
             else
-                animator.speed = 1f;
+                _animator.speed = 1f;
         }
 
         internal void Attack()
         {
             if(canShoot)
-                mobShooting.Shoot(shootDamage);
+                _mobShooting.Shoot(shootDamage);
             if (canMeleeAttack)
                 ;//TODO
         }
@@ -112,7 +112,7 @@ namespace Mob
         {
             IsLive = false;
             Agent.isStopped = true;
-            animator.SetFloat("Speed", 0);
+            _animator.SetFloat("Speed", 0);
             GetComponent<SpriteRenderer>().color = Color.red;
             mobData.live = false;
             Destroy(gameObject, 1f);
@@ -144,18 +144,18 @@ namespace Mob
 
         internal IMobState CurrenetState
         {
-            get { return currentState; }
+            get { return _currentState; }
             private set
             {
-                currentState = value;
-                currentState?.OnStartState();
+                _currentState = value;
+                _currentState?.OnStartState();
             }
         }
 
-        internal void ToIdleState() => CurrenetState = idleState;
-        internal void ToAttackState() => CurrenetState = attackState;
-        internal void ToSearchState() => CurrenetState = searchState;
-        internal void ToAlertState() => CurrenetState = alertState;
+        internal void ToIdleState() => CurrenetState = _idleState;
+        internal void ToAttackState() => CurrenetState = _attackState;
+        internal void ToSearchState() => CurrenetState = _searchState;
+        internal void ToAlertState() => CurrenetState = _alertState;
 
         [ContextMenu("GenerateId")] //TODO move to one script
         private void GenerateId()

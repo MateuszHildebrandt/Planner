@@ -7,7 +7,7 @@ namespace Tools
     public class FilesManager
     {
         private const bool _isDebug = true;
-        private const string password = @"@K%.=Z%d/E`Ctd@>K&5hYcht(*yVTv3`g&Ck7/e(ft4#-Qw*3x+$nMLzES:?$mnNReg+4gbPS}_vLxS3";
+        private const string _PASSWORD = @"@K%.=Z%d/E`Ctd@>K&5hYcht(*yVTv3`g&Ck7/e(ft4#-Qw*3x+$nMLzES:?$mnNReg+4gbPS}_vLxS3";
 
         private static string _playerDataPath;
         public static string PlayerDataPath 
@@ -29,7 +29,7 @@ namespace Tools
             if (isAES)
             {
                 byte[] decrypt = File.ReadAllBytes(filePath);
-                json = AES.Decrypt(decrypt, password);
+                json = AES.Decrypt(decrypt, _PASSWORD);
             }
             else
                 json = File.ReadAllText(filePath);
@@ -51,7 +51,7 @@ namespace Tools
             if (isAES)
             {
                 byte[] decrypt = File.ReadAllBytes(filePath);
-                json = AES.Decrypt(decrypt, password);
+                json = AES.Decrypt(decrypt, _PASSWORD);
             }
             else
                 json = File.ReadAllText(filePath);
@@ -75,7 +75,7 @@ namespace Tools
 
             if (isAES)
             {
-                byte[] encrypt = AES.Encrypt(System.Text.Encoding.UTF8.GetBytes(json), password);
+                byte[] encrypt = AES.Encrypt(System.Text.Encoding.UTF8.GetBytes(json), _PASSWORD);
                 File.WriteAllBytes(filePath, encrypt);
             }
             else

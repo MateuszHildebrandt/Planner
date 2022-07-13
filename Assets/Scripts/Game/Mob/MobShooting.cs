@@ -36,7 +36,7 @@ namespace Mob
         }
 
         [Inject]
-        private void Installer(BulletsPool bulletsPool)
+        private void Construct(BulletsPool bulletsPool)
         {
             _bulletsPool = bulletsPool;
         }

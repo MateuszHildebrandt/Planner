@@ -18,9 +18,9 @@ namespace UI
         [Header("Resources")]
         [SerializeField] AudioMixer audioMixer;
 
-        private const string MAIN_VOLUME = "VolumeMaster";
-        private const string MUSIC_VOLUME = "VolumeMusic";
-        private const string EFFECTS_VOLUME = "VolumeEffects";
+        private const string _MAIN_VOLUME = "VolumeMaster";
+        private const string _MUSIC_VOLUME = "VolumeMusic";
+        private const string _EFFECTS_VOLUME = "VolumeEffects";
 
         private Dictionary<int, Resolution> _supportedResolutions;
 
@@ -46,9 +46,9 @@ namespace UI
         }
 
         #region OnClick
-        public void OnChangeMainVolume(float value) => audioMixer.SetFloat(MAIN_VOLUME, value);
-        public void OnChangeMusicVolume(float value) => audioMixer.SetFloat(MUSIC_VOLUME, value);
-        public void OnChangeEffectsVolume(float value) => audioMixer.SetFloat(EFFECTS_VOLUME, value);
+        public void OnChangeMainVolume(float value) => audioMixer.SetFloat(_MAIN_VOLUME, value);
+        public void OnChangeMusicVolume(float value) => audioMixer.SetFloat(_MUSIC_VOLUME, value);
+        public void OnChangeEffectsVolume(float value) => audioMixer.SetFloat(_EFFECTS_VOLUME, value);
 
         public void OnChangeResolution(int value)
         {
@@ -87,9 +87,9 @@ namespace UI
 
             if (_supportedResolutions == null)
             {
-                audioMixer.GetFloat(MAIN_VOLUME, out float mainVolume);
-                audioMixer.GetFloat(MUSIC_VOLUME, out float musicVolume);
-                audioMixer.GetFloat(EFFECTS_VOLUME, out float effectsVolume);
+                audioMixer.GetFloat(_MAIN_VOLUME, out float mainVolume);
+                audioMixer.GetFloat(_MUSIC_VOLUME, out float musicVolume);
+                audioMixer.GetFloat(_EFFECTS_VOLUME, out float effectsVolume);
                 mainVolumeSlider.value = mainVolume;
                 musicVolumeSlider.value = musicVolume;
                 effectsVolumeSlider.value = effectsVolume;

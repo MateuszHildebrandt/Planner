@@ -20060,7 +20060,7 @@ Tilemap:
       - {fileID: 7196270143389622831, guid: ea3d66a7edd9d46d38e40be89ae8d3cf, type: 3}
       - {fileID: 6029957480157117390, guid: ea3d66a7edd9d46d38e40be89ae8d3cf, type: 3}
       - {fileID: -2507161886035769597, guid: ea3d66a7edd9d46d38e40be89ae8d3cf, type: 3}
-      m_AnimationSpeed: 7.0000005
+      m_AnimationSpeed: 7
       m_AnimationTimeOffset: 0
       m_IsLooping: 1
   - first: {x: 15, y: 26, z: 0}
@@ -22790,8 +22790,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9685adb66f5d6de4d9bfb251dc116872, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
   playerData: {fileID: 11400000, guid: 8e81bb22ce326614082542ce7f773f21, type: 2}
+  speed: 4
 --- !u!114 &1958540369
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22931,6 +22931,7 @@ MonoBehaviour:
   audioEffect: {fileID: 8300000, guid: 71f85de4f98ce8449b07d1714a736666, type: 3}
   playerData: {fileID: 11400000, guid: 8e81bb22ce326614082542ce7f773f21, type: 2}
   audioMixer: {fileID: -3056415329152362953, guid: 6f757163797c6f24da5e110e7c9baf4e, type: 2}
+  damage: 10
   bulletForce: 10
   spellCost: 1
 --- !u!4 &2054022337938379594 stripped
