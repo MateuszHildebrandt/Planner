@@ -1,4 +1,3 @@
-using UnityEngine.SceneManagement;
 using Zenject;
 
 namespace UI
@@ -7,6 +6,7 @@ namespace UI
     {
         private InputActions _inputActions;
         private HeadUpDisplayUI _headUpDisplayUI;
+        private LoadingUI _loadingUI;
 
         private void Start()
         {
@@ -20,10 +20,11 @@ namespace UI
         }
 
         [Inject]
-        private void Construct(InputActions inputActions, HeadUpDisplayUI headUpDisplayUI)
+        private void Construct(InputActions inputActions, HeadUpDisplayUI headUpDisplayUI, LoadingUI loadingUI)
         {
             _inputActions = inputActions;
             _headUpDisplayUI = headUpDisplayUI;
+            _loadingUI = loadingUI;
         }
 
 
@@ -36,15 +37,9 @@ namespace UI
         }
 
         #region OnClick
-        public void OnClickLoad()
-        {
-            SceneManager.LoadScene(1);
-        }
+        public void OnClickLoad() => _loadingUI.LoadSceneAsync(1);
 
-        public void OnClickExit()
-        {
-            SceneManager.LoadScene(0);
-        }
+        public void OnClickExit() => _loadingUI.LoadSceneAsync(0);
         #endregion
     }
 }

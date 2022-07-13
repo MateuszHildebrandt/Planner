@@ -48,11 +48,10 @@ namespace Inventory
             }
         }
 
-        [ContextMenu("GenerateId")] //TODO move to one script
+        [ContextMenu("GenerateId")]
         private void GenerateId()
         {
-            System.Guid guid = System.Guid.NewGuid();
-            itemData.id = guid.ToString();
+            itemData.id = System.Guid.NewGuid().ToString();
             itemData.type = item.type;
         }
     }

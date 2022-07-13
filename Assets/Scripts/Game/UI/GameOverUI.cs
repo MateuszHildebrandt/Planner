@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Zenject;
 
 namespace UI
 {
@@ -8,6 +9,7 @@ namespace UI
         [Header("Resources")]
         [SerializeField] Player.PlayerData playerData;
 
+        private LoadingUI _loadingUI;
         private float _timer;
 
         private void Update()
@@ -25,11 +27,15 @@ namespace UI
             }
         }
 
-        #region OnClick
-        public void OnClickRestart()
+
+        [Inject]
+        private void Construct(LoadingUI loadingUI)
         {
-            SceneManager.LoadScene(1);
+            _loadingUI = loadingUI;
         }
+
+        #region OnClick
+        public void OnClickRestart() => _loadingUI.LoadSceneAsync(1);
         #endregion
     }
 }

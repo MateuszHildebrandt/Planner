@@ -157,11 +157,7 @@ namespace Mob
         internal void ToSearchState() => CurrenetState = _searchState;
         internal void ToAlertState() => CurrenetState = _alertState;
 
-        [ContextMenu("GenerateId")] //TODO move to one script
-        private void GenerateId()
-        {
-            Guid guid = Guid.NewGuid();
-            mobData.id = guid.ToString();
-        }
+        [ContextMenu("GenerateId")]
+        private void GenerateId() => mobData.id = Guid.NewGuid().ToString();
     }
 }
