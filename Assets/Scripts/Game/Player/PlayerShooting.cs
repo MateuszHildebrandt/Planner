@@ -1,10 +1,12 @@
+using Game;
 using UnityEngine;
 using UnityEngine.Audio;
+using Zenject;
 
 namespace Player
 {
     [RequireComponent(typeof(SpriteRenderer), typeof(PlayerMovement))]
-    public class PlayerShooting : MonoBehaviour, Game.IInputActionsReceiver
+    public class PlayerShooting : MonoBehaviour, IInputActionsReceiver
     {
         [Header("References")]
         [SerializeField] GameObject bulletPrefab;
@@ -13,20 +15,22 @@ namespace Player
         [SerializeField] PlayerData playerData;
         [Header("Settings")]
         [SerializeField] AudioMixerGroup audioMixer;
+        [SerializeField] float damage = 10f;
         [SerializeField] float bulletForce = 10f;
         [SerializeField] float spellCost = 1f;
+
+        private const float BULLET_OFFSET = 0.01f;
 
         private SpriteRenderer _spriteRenderer;
         private PlayerMovement _playerMovement;
         private InputActions _inputActions;
 
-
-        private float _bulletOffset = 0.01f;
+        private BulletsPool _bulletsPool;
 
         private void Awake()
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
-            _playerMovement = GetComponent<PlayerMovement>();       
+            _playerMovement = GetComponent<PlayerMovement>();
         }
 
         private void Start()
@@ -34,17 +38,25 @@ namespace Player
             _inputActions.Player.Fire.performed += (_) => Shoot();
         }
 
+        [Inject]
+        private void Installer(BulletsPool bulletsPool)
+        {
+            _bulletsPool = bulletsPool;
+        }
+
         internal void Shoot()
         {          
             if (playerData.magic - spellCost >= 0)
             {
                 playerData.ClampMagic(playerData.magic - spellCost);
-                Vector2 bulletStart = SetBulletPosition();
-                GameObject bullet = Instantiate(bulletPrefab, bulletStart, Quaternion.identity, transform);
-                Rigidbody2D rigidbody2d = bullet.GetComponent<Rigidbody2D>();
-                rigidbody2d.AddForce(SetForceDirection() * bulletForce, ForceMode2D.Impulse);
+
+                Bullet bullet = _bulletsPool.Get();
+                bullet.transform.position = SetBulletPosition();
+                bullet.ChangeDamage(damage);
+                bullet.onRelease = (Bullet item) => _bulletsPool.Release(item);
+
+                bullet.AddForce(SetForceDirection() * bulletForce, ForceMode2D.Impulse);
                 Tools.SimpleAudio.PlayClipAtPoint(audioEffect, transform.position, 1, audioMixer);
-                Destroy(bullet, 10f);
             }
         }
 
@@ -66,13 +78,13 @@ namespace Player
 
             //4 directions
             if (direction.x > 0)
-                return new Vector2(bounds.max.x + _bulletOffset, bounds.center.y);
+                return new Vector2(bounds.max.x + BULLET_OFFSET, bounds.center.y);
             else if (direction.x < 0)
-                return new Vector2(bounds.min.x - _bulletOffset, bounds.center.y);
+                return new Vector2(bounds.min.x - BULLET_OFFSET, bounds.center.y);
             else if (direction.y > 0)
-                return new Vector2(bounds.center.x + _bulletOffset, bounds.max.y);
+                return new Vector2(bounds.center.x + BULLET_OFFSET, bounds.max.y);
             else
-                return new Vector2(bounds.center.x, bounds.min.y - _bulletOffset);
+                return new Vector2(bounds.center.x, bounds.min.y - BULLET_OFFSET);
 
         }
 

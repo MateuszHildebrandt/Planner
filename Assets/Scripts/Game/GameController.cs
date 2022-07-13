@@ -49,7 +49,7 @@ namespace Game
             if (gameData.items.ContainsKey(itemData.id) == false)
             {
                 gameData.items.Add(itemData.id, itemData);
-                Debug.Log($"Register item: {itemData.id}", go);
+                //Debug.Log($"Register item: {itemData.id}", go);
             }
 
             if (_itemsPair.ContainsKey(itemData.id) == false)
@@ -67,7 +67,7 @@ namespace Game
             if (gameData.mobs.ContainsKey(mobData.id) == false)
             {
                 gameData.mobs.Add(mobData.id, mobData);
-                Debug.Log($"Register mob: {mobData.id}", go);
+                //Debug.Log($"Register mob: {mobData.id}", go);
             }
 
             if (_mobsPair.ContainsKey(mobData.id) == false)

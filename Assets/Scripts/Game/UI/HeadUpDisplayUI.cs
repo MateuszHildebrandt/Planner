@@ -12,7 +12,13 @@ namespace UI
         [Header("Resources")]
         [SerializeField] PlayerData playerData;
 
+        private RemapImageColor _remapHealthColor;
         private float _timer;
+
+        private void Start()
+        {
+            _remapHealthColor = healthValue.GetComponent<RemapImageColor>();
+        }
 
         private void Update()
         {
@@ -34,6 +40,8 @@ namespace UI
             float normalizeValue = playerData.health / playerData.maxHealth;
             if (healthValue.fillAmount != normalizeValue)
                 healthValue.fillAmount = normalizeValue;
+
+            _remapHealthColor.Change(healthValue.fillAmount);
         }
 
         internal void UpdateMagic()

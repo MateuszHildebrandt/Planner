@@ -7,7 +7,6 @@ namespace UI
     {
         private InputActions _inputActions;
         private HeadUpDisplayUI _headUpDisplayUI;
-        private bool _isActive;
 
         private void Start()
         {
@@ -29,12 +28,10 @@ namespace UI
 
         private void Toggle()
         {
-            _isActive = !_isActive;
-
-            if (_isActive)
-                EnterState();
-            else
+            if (IsActive())
                 _headUpDisplayUI.EnterState();
+            else
+                EnterState();
         }
 
         #region OnClick

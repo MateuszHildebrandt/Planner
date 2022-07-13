@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Player1Data
   m_EditorClassIdentifier: 
   position:
-    x: 12.798338
-    y: 14.9697
+    x: 10
+    y: 10
   health: 50
   maxHealth: 100
-  magic: 20
+  magic: 30
   maxMagic: 100
