@@ -49,7 +49,7 @@ namespace Game
         {
             if (collisionEffect != null)
             {
-                if (collision.collider.CompareTag("Player"))
+                if (collision.gameObject.IsPlayer())
                     collision.gameObject.GetComponent<Player.PlayerController>()?.Damage(defaultDamage);
                 else if (collision.collider.CompareTag("Enemy"))
                     collision.gameObject.GetComponent<Mob.MobController>()?.Damage(defaultDamage);

@@ -35,7 +35,7 @@ namespace UI
         }
 
         #region OnClick
-        public void OnClickRestart() => _loadingUI.LoadSceneAsync(1);
+        public void OnClickRestart() => _loadingUI.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
         #endregion
     }
 }
