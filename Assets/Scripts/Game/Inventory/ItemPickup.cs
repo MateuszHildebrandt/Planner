@@ -43,7 +43,7 @@ namespace Inventory
             bool wasPickedUp = InventoryController.I.AddItem(item);
             if (wasPickedUp)
             {
-                Tools.SimpleAudio.PlayClipAtPoint(audioClip, transform.position, 1, audioMixer);
+                Tools.AudioClipPool.I.PlayClipAtPoint(audioClip, transform.position, 1, audioMixer);
                 Setup(true);
             }
         }

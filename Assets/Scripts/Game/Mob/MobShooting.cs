@@ -56,7 +56,7 @@ namespace Mob
                 //Debug.DrawRay(bulletStart, direction, Color.red, 2);
 
                 bullet.AddForce(direction * bulletForce, ForceMode2D.Impulse);
-                Tools.SimpleAudio.PlayClipAtPoint(audioEffect, transform.position, 1, audioMixer);             
+                Tools.AudioClipPool.I.PlayClipAtPoint(audioEffect, transform.position, 1, audioMixer);             
                 _timer = 0;
             }
         }
